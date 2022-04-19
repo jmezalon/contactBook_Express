@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const contactController = require("./controllers/contactController");
+const contactsController = require("./controllers/contactController.js");
 
 app.use(cors());
 app.use(express.json());
@@ -10,7 +10,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to Contact book Home!");
 });
 
-app.get("/contacts", contactController);
+app.use("/contacts", contactsController);
+// app.use()
 
 // 404 PAGE
 app.get("*", (req, res) => {

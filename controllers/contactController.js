@@ -1,8 +1,16 @@
 const express = require("express");
-const contacts = express.Router();
+const router = express.Router();
 
-contacts.get("/", (req, res) => {
-  res.json({ status: ok });
+const contacts = require("../contacts_dev.json");
+
+router.get("/", (req, res) => {
+  res.json(contacts);
 });
 
-module.exports = contacts;
+router.get("/:id", (req, res) => {
+  let id = parseInt(req.params.id);
+  let contact = contacts.contacts.find((contact) => contact.id === id);
+  res.json(contact);
+});
+
+module.exports = router;
