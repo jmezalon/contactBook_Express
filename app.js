@@ -1,17 +1,16 @@
-const express = require("express");
-const cors = require("cors");
+import express, { json } from "express";
+import cors from "cors";
 const app = express();
-const contactsController = require("./controllers/contactController.js");
+import contactsController from "./controllers/contactController.js";
 
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
 app.get("/", (req, res) => {
   res.send("Welcome to Contact book Home!");
 });
 
 app.use("/contacts", contactsController);
-// app.use()
 
 // 404 PAGE
 app.get("*", (req, res) => {
@@ -25,4 +24,4 @@ app.listen(PORT, () => {
   console.log(`listinging on port ${PORT}`);
 });
 
-module.exports = app;
+export default app;
