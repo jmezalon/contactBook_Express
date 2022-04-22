@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getAllContacts } = require("../queries/contacts");
+const { getAllContacts, getSingleContact } = require("../queries/contacts");
 
 router.get("/", async (req, res) => {
   const allContacts = await getAllContacts();
@@ -25,11 +25,15 @@ router.get("/", async (req, res) => {
 //   res.json(newContact);
 // });
 
-// router.get("/:id", (req, res) => {
-//   let id = parseInt(req.params.id);
-//   let contact = contacts.contacts.find((contact) => contact.id === id);
-//   res.json(contact);
-// });
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const contact = await getSingleContact(id);
+  if (contact) {
+    res.status(200).json(contact);
+  } else {
+    res.status(500).json({ error: "not found" });
+  }
+});
 
 // router.delete("/:id", (req, res) => {
 //   let id = parseInt(req.params.id);
