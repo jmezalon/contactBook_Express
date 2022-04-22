@@ -1,10 +1,10 @@
-import express, { json } from "express";
-import cors from "cors";
+const cors = require("cors");
+const express = require("express");
 const app = express();
-import contactsController from "./controllers/contactController.js";
+const contactsController = require("./controllers/contactController.js");
 
 app.use(cors());
-app.use(json());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Welcome to Contact book Home!");
@@ -24,4 +24,4 @@ app.listen(PORT, () => {
   console.log(`listinging on port ${PORT}`);
 });
 
-export default app;
+module.exports = app;
