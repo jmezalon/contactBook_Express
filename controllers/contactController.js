@@ -1,9 +1,13 @@
 const express = require("express");
-const router = express.Router();
+const contacts = express.Router();
+const { checkPhoneNumber } = require("../validations/checkContacts");
+const {
+  getAllContacts,
+  getSingleContact,
+  createContact,
+} = require("../queries/contacts");
 
-const { getAllContacts, getSingleContact } = require("../queries/contacts");
-
-router.get("/", async (req, res) => {
+contacts.get("/", async (req, res) => {
   const allContacts = await getAllContacts();
   if (allContacts[0]) {
     res.status(200).json(allContacts);
@@ -12,33 +16,29 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.post("/", (req, res) => {
-//   let newContact = {
-//     id: contacts.contacts[contacts.length - 1].id + 1,
-//     firstName: req.body.firstName,
-//     lastName: req.body.lastName,
-//     email: req.body.email,
-//     phoneNumber: req.body.phoneNumber,
-//     avatar: req.body.avatar,
-//     favorite: req.body.favorite,
-//   };
-//   res.json(newContact);
-// });
+contacts.post("/", checkPhoneNumber, async (req, res) => {
+  try {
+    const contact = await createContact(req.body);
+    res.json(contact);
+  } catch (error) {
+    res.status(400).json({ error: "error" });
+  }
+});
 
-router.get("/:id", async (req, res) => {
+contacts.get("/:id", async (req, res) => {
   const id = req.params.id;
   const contact = await getSingleContact(id);
   if (contact) {
-    res.status(200).json(contact);
+    res.json(contact);
   } else {
     res.status(500).json({ error: "not found" });
   }
 });
 
-// router.delete("/:id", (req, res) => {
+// contacts.delete("/:id", (req, res) => {
 //   let id = parseInt(req.params.id);
-//   let contact = contacts.contacts.filter((contact) => contact.id !== id);
-//   res.json(contact);
+//   let contacts = contacts.contacts.filter((contacts) => contacts.id !== id);
+//   res.json(contacts);
 // });
 
-module.exports = router;
+module.exports = contacts;

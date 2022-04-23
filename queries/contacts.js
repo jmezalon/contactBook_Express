@@ -21,4 +21,23 @@ const getSingleContact = async (id) => {
   }
 };
 
-module.exports = { getAllContacts, getSingleContact };
+const createContact = async (contact) => {
+  try {
+    const newContact = await db.one(
+      "INSERT INTO contacts (firstName, lastName, avatar, phoneNumber, email, is_favorite) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
+      [
+        contact.firstName,
+        contact.lastName,
+        contact.avatar,
+        contact.phoneNumber,
+        contact.email,
+        contact.is_favorite,
+      ]
+    );
+    return newContact;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { getAllContacts, getSingleContact, createContact };
