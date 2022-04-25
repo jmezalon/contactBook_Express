@@ -40,4 +40,42 @@ const createContact = async (contact) => {
   }
 };
 
-module.exports = { getAllContacts, getSingleContact, createContact };
+const deleteContact = async (id) => {
+  try {
+    const deletedContact = await db.one(
+      "DELETE FROM contacts WHERE id = $1 RETURNING *",
+      id
+    );
+    return deletedContact;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateContact = async (id, contact) => {
+  try {
+    const updatedContact = await db.one(
+      "UPDATE contacts SET firstName=$1, lastName=$2, avatar=$3, phoneNumber=$4, email=$5, is_favorite=$6 WHERE id=$7 RETURNING *",
+      [
+        contact.firstName,
+        contact.lastName,
+        contact.avatar,
+        contact.phoneNumber,
+        contact.email,
+        contact.is_favorite,
+        id,
+      ]
+    );
+    return updatedContact;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = {
+  getAllContacts,
+  getSingleContact,
+  createContact,
+  deleteContact,
+  updateContact,
+};

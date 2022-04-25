@@ -1,10 +1,15 @@
 const express = require("express");
 const contacts = express.Router();
-const { checkPhoneNumber } = require("../validations/checkContacts");
+const {
+  checkPhoneNumber,
+  validateURL,
+} = require("../validations/checkContacts");
 const {
   getAllContacts,
   getSingleContact,
   createContact,
+  deleteContact,
+  updateContact,
 } = require("../queries/contacts");
 
 contacts.get("/", async (req, res) => {
@@ -35,10 +40,20 @@ contacts.get("/:id", async (req, res) => {
   }
 });
 
-// contacts.delete("/:id", (req, res) => {
-//   let id = parseInt(req.params.id);
-//   let contacts = contacts.contacts.filter((contacts) => contacts.id !== id);
-//   res.json(contacts);
-// });
+contacts.delete("/:id", async (req, res) => {
+  let id = req.params.id;
+  const deletedContact = await deleteContact(id);
+  if (deletedContact.id) {
+    res.status(200).json(deletedContact);
+  } else {
+    res.status(400).json({ error: "contact not found" });
+  }
+});
+
+contacts.patch("/:id", checkPhoneNumber, async (req, res) => {
+  const { id } = req.params;
+  const updatedContact = await updateContact(id, req.body);
+  res.status(200).json(updatedContact);
+});
 
 module.exports = contacts;
