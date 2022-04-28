@@ -2,7 +2,7 @@ const db = require("../db/dbConfig");
 
 const getAllContacts = async () => {
   try {
-    const allContacts = await db.any("SELECT * FROM contacts");
+    const allContacts = await db.any("SELECT * FROM contacts_entries");
     return allContacts;
   } catch (error) {
     return error;
@@ -12,7 +12,7 @@ const getAllContacts = async () => {
 const getSingleContact = async (id) => {
   try {
     const singleContact = await db.one(
-      "SELECT * FROM contacts WHERE id=$1",
+      "SELECT * FROM contacts_entries WHERE id=$1",
       id
     );
     return singleContact;
@@ -24,7 +24,7 @@ const getSingleContact = async (id) => {
 const createContact = async (contact) => {
   try {
     const newContact = await db.one(
-      "INSERT INTO contacts (firstName, lastName, avatar, phoneNumber, email, is_favorite) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
+      "INSERT INTO contacts_entries (firstName, lastName, avatar, phoneNumber, email, is_favorite) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
       [
         contact.firstName,
         contact.lastName,
@@ -43,7 +43,7 @@ const createContact = async (contact) => {
 const deleteContact = async (id) => {
   try {
     const deletedContact = await db.one(
-      "DELETE FROM contacts WHERE id = $1 RETURNING *",
+      "DELETE FROM contacts_entries WHERE id = $1 RETURNING *",
       id
     );
     return deletedContact;
@@ -55,7 +55,7 @@ const deleteContact = async (id) => {
 const updateContact = async (id, contact) => {
   try {
     const updatedContact = await db.one(
-      "UPDATE contacts SET firstName=$1, lastName=$2, avatar=$3, phoneNumber=$4, email=$5, is_favorite=$6 WHERE id=$7 RETURNING *",
+      "UPDATE contacts_entries SET firstName=$1, lastName=$2, avatar=$3, phoneNumber=$4, email=$5, is_favorite=$6 WHERE id=$7 RETURNING *",
       [
         contact.firstName,
         contact.lastName,
