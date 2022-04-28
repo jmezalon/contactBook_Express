@@ -11,7 +11,7 @@ const cn =
         user: process.env.PG_USER,
       }
     : {
-        connetionString: process.env.DATABASE_URL,
+        connectionString: process.env.DATABASE_URL,
       };
 
 const db = pgp(cn);
