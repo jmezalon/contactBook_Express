@@ -1,14 +1,14 @@
--- DROP DATABASE IF EXISTS contacts_dev;
--- CREATE DATABASE contacts_dev;
-DROP TABLE IF EXISTS contacts;
--- \c contacts_dev;
+DROP DATABASE IF EXISTS contacts;
+CREATE DATABASE contacts;
 
-CREATE TABLE contacts (
+\c contacts;
+
+CREATE TABLE contacts_entries (
     id SERIAL PRIMARY KEY,
-    firstName VARCHAR,
-    lastName VARCHAR,
+    first_name VARCHAR,
+    last_name VARCHAR,
     avatar VARCHAR,
-    phoneNumber VARCHAR NOT NULL,
+    phone_number VARCHAR NOT NULL,
     email VARCHAR,
     is_favorite BOOLEAN
 );

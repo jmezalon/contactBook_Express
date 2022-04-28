@@ -2,7 +2,7 @@ const pgp = require("pg-promise")();
 require("dotenv").config();
 
 const cn =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV !== "production"
     ? {
         host: process.env.PG_HOST,
         port: process.env.PG_PORT,
