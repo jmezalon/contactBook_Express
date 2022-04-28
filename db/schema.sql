@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS contacts_dev;
-CREATE DATABASE contacts_dev;
-
-\c contacts_dev;
+-- DROP DATABASE IF EXISTS contacts_dev;
+-- CREATE DATABASE contacts_dev;
+DROP TABLE IF EXISTS contacts;
+-- \c contacts_dev;
 
 CREATE TABLE contacts (
     id SERIAL PRIMARY KEY,

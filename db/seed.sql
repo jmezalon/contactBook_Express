@@ -1,4 +1,4 @@
-\c contacts_dev;
+-- \c contacts_dev;
 
 INSERT INTO contacts (firstName, lastName, avatar, phoneNumber, email, is_favorite) VALUES 
 ('Max','Mezalon','https://jmezalon.github.io/all-about-Max/images/Max_sitting.PNG','347-486-8720','jmezalon@gmail.com', true),
